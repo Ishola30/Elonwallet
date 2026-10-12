@@ -3,1571 +3,449 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ELON Wallet Portfolio </title>
+<meta name="theme-color" content="#090a0c">
+<title>Elon Wallet | Dashboard</title>
+
 <style>
 :root {
-  --bg: #0b1020;
-  --panel: #131b2e;
-  --panel2: #19243a;
-  --text: #f4f7ff;
-  --muted: #9aa8c3;
-  --accent: #76f0c1;
-  --blue: #7da8ff;
-  --danger: #ff8b9a;
-  --line: #27334d;
+  --bg: #090a0c;
+  --panel: #151619;
+  --border: #303034;
+  --gold: #e8b548;
+  --text: #f7f7f8;
+  --muted: #a6a6ad;
 }
-
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 15px/1.5 Inter, system-ui, -apple-system, "Segoe UI",
-        Roboto, Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
-
-button, input, select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  border: 0;
-}
-
-.app {
-  max-width: 1200px;
-  margin: auto;
-  padding: 22px;
-}
-
-.notice {
-  background: #302b1c;
-  border: 1px solid #6a5b2b;
-  color: #ffe9a3;
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 18px;
-  font-size: 13px;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 21px;
-}
-
-.logo {
-  width: 38px;
-  height: 38px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, var(--accent), var(--blue));
-  display: grid;
-  place-items: center;
-  color: #0b1020;
-  font-weight: 900;
-}
-
-.pill {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 8px 12px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 22px;
-}
-
-.sidebar, .card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-}
-
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+.layout { display: flex; min-height: 100vh; }
 .sidebar {
-  padding: 12px;
-  height: max-content;
-  position: sticky;
-  top: 18px;
+  width: 245px;
+  background: #111214;
+  border-right: 1px solid #222327;
+  padding: 30px 18px;
+  display: flex;
+  flex-direction: column;
 }
-
-.nav {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 12px 13px;
-  border-radius: 11px;
+.brand {
+  color: var(--gold);
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 0 45px;
+}
+.brand span { display: block; font-size: 37px; margin-bottom: 8px; }
+.nav { display: grid; gap: 10px; }
+.nav button, .logout {
   background: transparent;
   color: var(--muted);
-  margin: 3px 0;
-}
-
-.nav.active, .nav:hover {
-  background: var(--panel2);
-  color: var(--text);
-}
-
-main {
-  min-width: 0;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
-
-h1 {
-  font-size: 27px;
-  margin: 0 0 5px;
-}
-
-h2 {
-  font-size: 18px;
-  margin: 0 0 15px;
-}
-
-.sub {
-  color: var(--muted);
-  margin: 0 0 22px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 18px;
-}
-
-.card {
-  padding: 19px;
-  min-width: 0;
-}
-
-.label {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.balance {
-  font-size: 29px;
-  font-weight: 800;
-  letter-spacing: -0.7px;
-  margin: 8px 0;
-}
-
-.small {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.positive {
-  color: var(--accent);
-}
-
-.negative {
-  color: var(--danger);
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 15px;
-}
-
-.btn {
-  background: var(--accent);
-  color: #09131b;
-  border-radius: 10px;
-  padding: 10px 15px;
-  font-weight: 750;
-}
-
-.btn.secondary {
-  background: var(--panel2);
-  color: var(--text);
-  border: 1px solid var(--line);
-}
-
-.btn.danger {
-  background: #472431;
-  color: #ffdce2;
-  border: 1px solid #71404e;
-}
-
-.btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
+  border: 0;
+  padding: 16px;
+  border-radius: 9px;
   text-align: left;
-  padding: 13px 8px;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: 15px;
 }
-
-th {
-  color: var(--muted);
-  font-weight: 600;
+.nav button:hover, .nav button.active {
+  color: var(--gold);
+  background: #332919;
 }
-
-.coin {
+.logout { margin-top: auto; }
+main { flex: 1; padding: 38px; min-width: 0; }
+.topbar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 32px;
 }
-
-.coinicon {
-  width: 35px;
-  height: 35px;
+.user { display: flex; align-items: center; gap: 16px; }
+.avatar {
+  width: 58px; height: 58px;
+  border: 1px solid var(--gold);
+  color: var(--gold);
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: var(--panel2);
-  font-weight: 800;
+  font-size: 24px;
 }
-
-.coinname strong {
-  display: block;
-}
-
-.coinname span {
+h1 { font-size: 25px; margin-bottom: 7px; }
+.subtitle { color: var(--gold); font-size: 15px; }
+.status {
+  color: #a8d8b5;
   font-size: 12px;
-  color: var(--muted);
+  border: 1px solid #31513a;
+  border-radius: 30px;
+  padding: 9px 12px;
 }
-
-.sectionhead {
+.card {
+  background: linear-gradient(135deg, #191a1d, #101113);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 28px;
+}
+.balance-card { margin-bottom: 24px; }
+.label { color: var(--muted); font-size: 15px; }
+.balance {
+  font-size: clamp(32px, 5vw, 49px);
+  font-weight: bold;
+  margin: 17px 0 10px;
+  overflow-wrap: anywhere;
+}
+.balance-note { color: var(--muted); font-size: 13px; }
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.action {
+  text-align: left;
+  min-height: 135px;
+  transition: .2s;
+  color: var(--text);
+}
+.action:hover { border-color: var(--gold); transform: translateY(-2px); }
+.action-icon { color: var(--gold); font-size: 25px; margin-bottom: 18px; }
+.action strong { display: block; font-size: 17px; margin-bottom: 8px; }
+.action small { color: var(--muted); }
+.section-title { font-size: 19px; margin-bottom: 18px; }
+.transaction {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  margin: 24px 0 12px;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #292a2e;
 }
-
-.form {
-  max-width: 560px;
+.transaction:last-child { border-bottom: 0; }
+.transaction small { color: var(--muted); display: block; margin-top: 6px; }
+.badge {
+  color: var(--gold);
+  font-size: 12px;
+  border: 1px solid #594522;
+  border-radius: 20px;
+  padding: 7px 10px;
 }
-
-.field {
-  margin: 14px 0;
-}
-
-label {
-  display: block;
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 7px;
-}
-
+.view { display: none; }
+.view.active { display: block; }
+.form-card { max-width: 600px; margin: auto; }
+.form-card h2 { font-size: 24px; margin-bottom: 10px; }
+.description { color: var(--muted); line-height: 1.6; margin-bottom: 25px; }
+.field { margin-bottom: 19px; }
+label { display: block; color: #d8d8dc; font-size: 14px; margin-bottom: 9px; }
 input, select {
   width: 100%;
-  padding: 12px 13px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: #0d1527;
-  color: var(--text);
+  padding: 14px;
+  background: #0d0e10;
+  color: white;
+  border: 1px solid #393a40;
+  border-radius: 9px;
   outline: none;
 }
-
-input:focus, select:focus {
-  border-color: var(--blue);
+input:focus, select:focus { border-color: var(--gold); }
+.primary, .secondary {
+  width: 100%;
+  border-radius: 9px;
+  padding: 15px;
+  font-weight: bold;
+  margin-top: 8px;
 }
-
-.message {
-  padding: 12px;
-  border-radius: 10px;
-  background: var(--panel2);
-  margin-top: 12px;
-  color: var(--muted);
+.primary { background: var(--gold); color: #17130b; border: 0; }
+.primary:hover { background: #f2c866; }
+.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.notice {
+  background: #211d14;
+  border: 1px solid #554323;
+  color: #e8d5aa;
+  border-radius: 9px;
+  padding: 13px;
   font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
-
-.activity {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-}
-
-.empty {
-  padding: 24px;
-  color: var(--muted);
-  text-align: center;
-}
-
-.progress {
-  height: 9px;
-  background: #263149;
-  border-radius: 99px;
-  overflow: hidden;
-  margin: 12px 0;
-}
-
-.progress span {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: var(--accent);
-  transition: width 0.3s;
-}
-
-.footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-  padding: 25px 0 8px;
-}
-
-.mobile-nav {
-  display: none;
-}
-
+.message { text-align: center; padding: 25px 0 10px; }
+.message .check { color: var(--gold); font-size: 48px; margin-bottom: 20px; }
+.message p { color: var(--muted); line-height: 1.7; margin: 16px 0 25px; }
+footer { color: #74747c; font-size: 12px; text-align: center; margin-top: 35px; }
 @media (max-width: 800px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
+  .sidebar { width: 190px; padding: 20px 12px; }
+  main { padding: 25px 18px; }
+  .actions { gap: 10px; }
+}
+@media (max-width: 560px) {
+  .layout { display: block; padding-bottom: 75px; }
   .sidebar {
-    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    width: 100%; height: 68px; padding: 6px;
+    z-index: 10; border-top: 1px solid var(--border);
+    border-right: 0; display: block;
   }
-
-  .mobile-nav {
-    display: flex;
-    overflow: auto;
-    gap: 7px;
-    margin-bottom: 17px;
-  }
-
-  .mobile-nav .nav {
-    white-space: nowrap;
-    width: auto;
-    margin: 0;
-  }
-
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .app {
-    padding: 14px;
-  }
-
-  .balance {
-    font-size: 24px;
-  }
+  .brand, .logout { display: none; }
+  .nav { display: flex; justify-content: space-around; gap: 2px; }
+  .nav button { text-align: center; padding: 13px 8px; font-size: 12px; }
+  main { padding: 25px 15px; }
+  .topbar { align-items: flex-start; }
+  .avatar { width: 46px; height: 46px; }
+  h1 { font-size: 19px; }
+  .status { font-size: 10px; padding: 7px; }
+  .card { padding: 21px; }
+  .actions { grid-template-columns: 1fr; }
+  .action { min-height: auto; }
+  .action-icon { display: inline-block; margin-right: 12px; margin-bottom: 0; }
+  .action strong { display: inline-block; }
+  .action small { display: block; margin-top: 10px; }
 }
+</style>
+</head>
 
-@media (max-width: 480px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .topbar {
-    align-items: flex-start;
-  }
-
-  .pill {
-    display: none;
-  }
-
-  table th:nth-child(3),
-  table td:nth-child(3) {
-    display: none;
-  }
-
-  .card {
-    padding: 15px;
-  }
-}
-  </style>
-  </head>
 <body>
-<div class="app">
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><span>◈</span>Elon wallet</div>
+    <nav class="nav">
+      <button class="active" data-view="dashboard">⌂ &nbsp; Dashboard</button>
+      <button data-view="withdrawal">↗ &nbsp; Withdrawal</button>
+      <button data-view="swap">⇄ &nbsp; Swap</button>
+      <button data-view="sell">＄ &nbsp; Sell</button>
+    </nav>
+    <button class="logout" id="logout">↪ &nbsp; Sign out</button>
+  </aside>
 
-  <div class="notice">
-    <strong>private wallet:</strong>
-    This wallet is a private wallet design for Elon musk investment shares holder and other partners 
-  </div>
-
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">EM</div>
-      <span>ELON Wallet</span>
-    </div>
-    <div class="pill">Personal Portfolio Simulator</div>
-  </header>
-
-  <div class="layout">
-
-    <aside class="sidebar">
-      <button class="nav active" data-page="dashboard">Dashboard</button>
-      <button class="nav" data-page="assets">My Assets</button>
-      <button class="nav" data-page="markets">Markets</button>
-      <button class="nav" data-page="trade">Buy / Sell / Swap</button>
-      <button class="nav" data-page="withdraw">Withdraw Preview</button>
-      <button class="nav" data-page="activity">Activity</button>
-      <button class="nav" data-page="settings">Settings</button>
-    </aside>
-
-    <main>
-
-      <nav class="mobile-nav">
-        <button class="nav active" data-page="dashboard">Home</button>
-        <button class="nav" data-page="assets">Assets</button>
-        <button class="nav" data-page="markets">Markets</button>
-        <button class="nav" data-page="trade">Trade</button>
-        <button class="nav" data-page="withdraw">Withdraw</button>
-        <button class="nav" data-page="activity">Activity</button>
-        <button class="nav" data-page="settings">Settings</button>
-      </nav>
-
-      <!-- DASHBOARD -->
-      <section class="page active" id="dashboard">
-
-        <h1>Welcome to Elon wallet Thomas Graizini. </h1>
-        <p class="sub">
-          Your personal cryptocurrency portfolio .
-        </p>
-
-        <div class="grid">
-
-          <div class="card">
-            <div class="label">Total Portfolio Value</div>
-            <div class="balance" id="totalBalance">$375,480.00</div>
-            <div class="small positive">Sample portfolio value</div>
-          </div>
-
-          <div class="card">
-            <div class="label">Available Cash</div>
-            <div class="balance" id="cashBalance">$375,000.00</div>
-            <div class="small">USD balance</div>
-          </div>
-
-          <div class="card">
-            <div class="label">Assets Held</div>
-            <div class="balance" id="assetCount">4</div>
-            <div class="small"> cryptocurrencies</div>
-          </div>
-
+  <main>
+    <header class="topbar">
+      <div class="user">
+        <div class="avatar">TG</div>
+        <div>
+          <h1>Thomas Graizini</h1>
+          <div class="subtitle">Elon wallet</div>
         </div>
+      </div>
+      <div class="status">● Account</div>
+    </header>
 
-        <div class="card">
-          <h2>Quick Actions</h2>
-          <p class="small">
-            Try the available portfolio features.
-          </p>
+    <section class="view active" id="dashboard">
+      <div class="card balance-card">
+        <div class="label">Available Balance</div>
+        <div class="balance" id="balance">$370,450.00</div>
+        <div class="balance-note">Your wallet overview</div>
+      </div>
 
-          <div class="actions">
-            <button class="btn" data-goto="trade">Buy Assets</button>
-            <button class="btn secondary" data-goto="trade">Sell Assets</button>
-            <button class="btn secondary" data-goto="trade">Swap Assets</button>
-            <button class="btn secondary" data-goto="withdraw">
-              Withdrawal Preview
-            </button>
+      <div class="actions">
+        <button class="card action" data-go="withdrawal">
+          <div class="action-icon">↗</div>
+          <strong>Withdrawal</strong>
+          <small>Request a withdrawal</small>
+        </button>
+        <button class="card action" data-go="swap">
+          <div class="action-icon">⇄</div>
+          <strong>Swap</strong>
+          <small>Exchange assets</small>
+        </button>
+        <button class="card action" data-go="sell">
+          <div class="action-icon">＄</div>
+          <strong>Sell</strong>
+          <small>Submit a sell request</small>
+        </button>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Recent Activity</h2>
+        <div id="activity">
+          <div class="transaction">
+            <div>Wallet account<small>Account overview</small></div>
+            <span class="badge">Active</span>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="sectionhead">
-          <h2>My Assets</h2>
-          <button class="btn secondary" data-goto="assets">
-            View All
-          </button>
-        </div>
-
-        <div class="card" style="overflow-x:auto">
-          <table>
-            <thead>
-              <tr>
-                <th>Asset</th>
-                <th>Price</th>
-                <th></th>
-                <th>Holdings</th>
-              </tr>
-            </thead>
-            <tbody id="dashboardAssets"></tbody>
-          </table>
-        </div>
-
-        <div class="sectionhead">
-          <h2>Recent Activity</h2>
-          <button class="btn secondary" data-goto="activity">
-            View All
-          </button>
-        </div>
-
-        <div class="card" id="recentActivity">
-          <div class="empty">Your activity will appear here.</div>
-        </div>
-
-      </section>
-
-      <!-- END DASHBOARD -->
-            <!-- MY ASSETS -->
-      <section class="page" id="assets">
-        <h1>My Assets</h1>
-        <p class="sub">View your Assets.</p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="label">Portfolio Value</div>
-            <div class="balance" id="assetsTotal">$375,480.00</div>
-            <div class="small">Total  value</div>
-          </div>
-
-          <div class="card">
-            <div class="label">Available Cash</div>
-            <div class="balance" id="assetsCash">$375,000.00</div>
-            <div class="small">USD</div>
-          </div>
-
-          <div class="card">
-            <div class="label">Different Assets</div>
-            <div class="balance" id="assetsCount">4</div>
-            <div class="small">Sample holdings</div>
-          </div>
-        </div>
-
-        <div class="card" style="overflow-x:auto">
-          <h2>Asset Portfolio</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Asset</th>
-                <th>Price</th>
-                <th>Holdings</th>
-                <th>Value</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="allAssets"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- MARKETS -->
-      <section class="page" id="markets">
-        <h1>Markets</h1>
-        <p class="sub">
-          
-        </p>
-
-        <div class="card">
+    <section class="view" id="withdrawal">
+      <div class="card form-card">
+        <h2>Withdrawal</h2>
+        <p class="description">Submit your withdrawal details for review.</p>
+        <div class="notice">Please ensure your destination details are correct before submitting your request.</div>
+        <form data-type="Withdrawal">
           <div class="field">
-            <label for="marketSearch">Search assets</label>
-            <input
-              id="marketSearch"
-              type="search"
-              placeholder="Search Bitcoin, Ethereum..."
-            >
+            <label for="withdrawAmount">Amount (USD)</label>
+            <input id="withdrawAmount" type="number" min="0.01" step="0.01" placeholder="Enter amount" required>
           </div>
-
-          <div style="overflow-x:auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Asset</th>
-                  <th>Sample Price</th>
-                  <th></th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="marketRows"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- TRADING -->
-      <section class="page" id="trade">
-        <h1>Trade Assets</h1>
-        <p class="sub">
-          Simulate buying, selling, and swapping assets using balances.
-        </p>
-
-        <div class="card form">
-          <h2>Buy or Sell</h2>
-
           <div class="field">
-            <label for="tradeType">Transaction type</label>
-            <select id="tradeType">
-              <option value="buy">Buy asset</option>
-              <option value="sell">Sell asset</option>
+            <label for="withdrawMethod">Withdrawal method</label>
+            <select id="withdrawMethod" required>
+              <option value="">Select method</option>
+              <option>Bank Transfer</option>
+              <option>Cryptocurrency Wallet</option>
             </select>
           </div>
-
           <div class="field">
-            <label for="tradeCoin">Choose asset</label>
-            <select id="tradeCoin">
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="ETH">Ethereum (ETH)</option>
-              <option value="SOL">Solana (SOL)</option>
-              <option value="ADA">Cardano (ADA)</option>
+            <label for="withdrawDestination">Destination details</label>
+            <input id="withdrawDestination" placeholder="Enter destination details" required>
+          </div>
+          <button class="primary" type="submit">Confirm Withdrawal Request</button>
+          <button class="secondary" type="button" data-go="dashboard">Cancel</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="view" id="swap">
+      <div class="card form-card">
+        <h2>Swap Assets</h2>
+        <p class="description">Enter the assets and amount you want to exchange.</p>
+        <form data-type="Swap">
+          <div class="field">
+            <label for="swapFrom">From</label>
+            <select id="swapFrom" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option>
+              <option>USDT</option><option>USDC</option>
             </select>
           </div>
-
           <div class="field">
-            <label for="tradeAmount">Amount in USD</label>
-            <input
-              id="tradeAmount"
-              type="number"
-              min="0.01"
-              step="0.01"
-              placeholder="Enter amount"
-            >
-          </div>
-
-          <div class="message" id="tradeEstimate">
-            Enter an amount to see the estimated transaction.
-          </div>
-
-          <div class="actions">
-            <button class="btn" id="executeTrade">
-              Confirm 
-            </button>
-            <button class="btn secondary" id="clearTrade">
-              Clear
-            </button>
-          </div>
-
-          <div class="message" id="tradeMessage" aria-live="polite">
-            
-          </div>
-        </div>
-
-        <div class="card form" style="margin-top:18px">
-          <h2>Swap Assets</h2>
-
-          <div class="field">
-            <label for="swapFrom">Swap from</label>
-            <select id="swapFrom">
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="ETH">Ethereum (ETH)</option>
-              <option value="SOL">Solana (SOL)</option>
-              <option value="ADA">Cardano (ADA)</option>
+            <label for="swapTo">To</label>
+            <select id="swapTo" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option>
+              <option>USDT</option><option>USDC</option>
             </select>
           </div>
-
           <div class="field">
-            <label for="swapTo">Swap to</label>
-            <select id="swapTo">
-              <option value="ETH">Ethereum (ETH)</option>
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="SOL">Solana (SOL)</option>
-              <option value="ADA">Cardano (ADA)</option>
+            <label for="swapAmount">Amount</label>
+            <input id="swapAmount" type="number" min="0.00000001" step="any" placeholder="Enter amount" required>
+          </div>
+          <button class="primary" type="submit">Confirm Swap Request</button>
+          <button class="secondary" type="button" data-go="dashboard">Cancel</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="view" id="sell">
+      <div class="card form-card">
+        <h2>Sell Assets</h2>
+        <p class="description">Submit your asset and payment details for review.</p>
+        <form data-type="Sell">
+          <div class="field">
+            <label for="sellAsset">Asset</label>
+            <select id="sellAsset" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option>
+              <option>USDT</option><option>USDC</option>
             </select>
           </div>
-
           <div class="field">
-            <label for="swapAmount">Amount in USD</label>
-            <input
-              id="swapAmount"
-              type="number"
-              min="0.01"
-              step="0.01"
-              placeholder="Enter amount"
-            >
+            <label for="sellAmount">Amount</label>
+            <input id="sellAmount" type="number" min="0.00000001" step="any" placeholder="Enter amount" required>
           </div>
-
-          <div class="message" id="swapEstimate">
-            Enter an amount to estimate the swap.
-          </div>
-
-          <div class="actions">
-            <button class="btn" id="executeSwap">
-              Confirm Swap 
-            </button>
-          </div>
-
-          <div class="message" id="swapMessage" aria-live="polite">
-            
-          </div>
-        </div>
-      </section>
-
-      <!-- WITHDRAWAL PREVIEW -->
-      <section class="page" id="withdraw">
-        <h1>Withdrawal Preview</h1>
-        <p class="sub">
-          
-        </p>
-
-        <div class="card form">
-          <h2>Withdrawal Details</h2>
-
           <div class="field">
-            <label for="withdrawAsset">Asset</label>
-            <select id="withdrawAsset">
-              <option value="USD">USD (Transfer from elon musk)</option>
-              <option value="BTC">Bitcoin (BTC)</option>
-              <option value="ETH">Ethereum (ETH)</option>
-              <option value="SOL">Solana (SOL)</option>
-              <option value="ADA">Cardano (ADA)</option>
+            <label for="sellPayment">Preferred payment method</label>
+            <select id="sellPayment" required>
+              <option value="">Select method</option>
+              <option>Bank Transfer</option>
+              <option>Cryptocurrency</option>
             </select>
           </div>
+          <button class="primary" type="submit">Confirm Sell Request</button>
+          <button class="secondary" type="button" data-go="dashboard">Cancel</button>
+        </form>
+      </div>
+    </section>
 
-          <div class="field">
-            <label for="withdrawAmount">Amount in USD</label>
-            <input
-              id="withdrawAmount"
-              type="number"
-              min="0.01"
-              step="0.01"
-              placeholder="Enter amount"
-            >
-          </div>
+    <section class="view" id="confirmation">
+      <div class="card form-card message">
+        <div class="check">✓</div>
+        <h2 id="confirmationTitle">Request Received</h2>
+        <p id="confirmationText">Your request has been recorded.</p>
+        <div class="notice">Thank you for using Elon wallet. Please get back to us for further assistance and information about the next steps.</div>
+        <button class="primary" data-go="dashboard">Return to Dashboard</button>
+      </div>
+    </section>
 
-          <div class="field">
-            <label for="withdrawMethod">Destination type</label>
-            <select id="withdrawMethod">
-              <option value="bank">Bank transfer preview</option>
-              <option value="wallet">External wallet preview</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="withdrawDestination">Destination label</label>
-            <input
-              id="withdrawDestination"
-              type="text"
-              maxlength="80"
-              placeholder="Enter a fictional label"
-            >
-          </div>
-
-          <div class="message">
-            This is a private wallet
-          </div>
-
-          <div class="actions">
-            <button class="btn" id="previewWithdrawal">
-              Create Preview
-            </button>
-            <button class="btn secondary" id="clearWithdrawal">
-              Clear Form
-            </button>
-          </div>
-
-          <div
-            class="message"
-            id="withdrawMessage"
-            aria-live="polite"
-          >
-            Your withdrawal preview will appear here.
-          </div>
-        </div>
-  </section>
-            <!-- SETTINGS -->
-      <section class="page" id="settings">
-        <h1>Setting </h1>
-        <p class="sub">.</p>
-
-        <div class="card form">
-          <h2>Portfolio Settings</h2>
-
-          <div class="field">
-            <label for="displayName">Display name</label>
-            <input id="displayName" type="text"
-                   maxlength="40" placeholder="Nova User">
-          </div>
-
-          <div class="field">
-            <label for="currencyDisplay">Display currency</label>
-            <select id="currencyDisplay">
-              <option value="USD">US Dollar (USD)</option>
-            </select>
-          </div>
-
-          <div class="actions">
-            <button class="btn" id="saveSettings">Save Settings</button>
-            <button class="btn danger" id="resetWallet">Reset Portfolio</button>
-          </div>
-
-          <div class="message" id="settingsMessage" aria-live="polite">
-            
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:18px">
-          <h2>Portfolio Progress</h2>
-          <p class="small">
-            This is a private wallet
-          </p>
-          <div class="progress"><span id="progressBar"></span></div>
-          <div class="small" id="progressText">Sample progress: 50%</div>
-        </div>
-
-        <div class="card" style="margin-top:18px">
-          <h2>About Elon Wallet</h2>
-          <p class="small">
-            Elon Wallet is a portfolio interface . It is a private wallet.
-            
-          </p>
-        </div>
-      </section>
-
-      <footer class="footer">
-        ELON Wallet ·
-      </footer>
-
-    </main>
-  </div>
+    <footer>© <span id="year"></span> Elon wallet. All rights reserved.</footer>
+  </main>
 </div>
 
 <script>
-"use strict";
+const views = document.querySelectorAll('.view');
+const navButtons = document.querySelectorAll('[data-view]');
+const activity = document.getElementById('activity');
 
-/* =========================================
-   NOVA WALLET — SAMPLE PORTFOLIO DATA
-   ========================================= */
-
-const initialCash = 5000;
-
-const initialCoins = {
-  BTC: {
-    name: "Bitcoin",
-    symbol: "BTC",
-    price: 65000,
-    change: 2.4,
-    holding: 0.08,
-    icon: "₿"
-  },
-  ETH: {
-    name: "Ethereum",
-    symbol: "ETH",
-    price: 3200,
-    change: 1.7,
-    holding: 1.25,
-    icon: "◆"
-  },
-  SOL: {
-    name: "Solana",
-    symbol: "SOL",
-    price: 145,
-    change: -0.8,
-    holding: 8,
-    icon: "S"
-  },
-  ADA: {
-    name: "Cardano",
-    symbol: "ADA",
-    price: 0.45,
-    change: 0.9,
-    holding: 600,
-    icon: "A"
-  }
-};
-
-let cash = initialCash;
-let coins = JSON.parse(JSON.stringify(initialCoins));
-let activities = [];
-let displayName = "Nova User";
-
-/* =========================================
-   GENERAL HELPERS
-   ========================================= */
-
-const byId = id => document.getElementById(id);
-
-function money(value) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(Number(value) || 0);
-}
-
-function numberFormat(value, maximum = 8) {
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: maximum
-  }).format(Number(value) || 0);
-}
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
-}
-
-function assetValue(symbol) {
-  return coins[symbol].holding * coins[symbol].price;
-}
-
-function portfolioValue() {
-  return cash + Object.keys(coins).reduce(
-    (total, symbol) => total + assetValue(symbol),
-    0
+function showView(id) {
+  views.forEach(view => view.classList.toggle('active', view.id === id));
+  navButtons.forEach(button =>
+    button.classList.toggle('active', button.dataset.view === id)
   );
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function holdingCount() {
-  return Object.values(coins).filter(
-    coin => coin.holding > 0
-  ).length;
-}
-
-function showMessage(id, message) {
-  const element = byId(id);
-  if (element) element.textContent = message;
-}
-
-/* =========================================
-   ACTIVITY RECORDS
-   ========================================= */
-
-function recordActivity(type, details, amount) {
-  activities.unshift({
-    id: Date.now() + Math.random(),
-    type,
-    details,
-    amount,
-    date: new Date().toLocaleString()
-  });
-
-  activities = activities.slice(0, 100);
-  renderActivity();
-}
-
-/* =========================================
-   ASSET TABLES
-   ========================================= */
-
-function assetRow(symbol, includeAction = false) {
-  const coin = coins[symbol];
-  const value = assetValue(symbol);
-  const changeClass = coin.change >= 0 ? "positive" : "negative";
-  const changeSign = coin.change > 0 ? "+" : "";
-
-  return `
-    <tr>
-      <td>
-        <div class="coin">
-          <div class="coinicon">${escapeHTML(coin.icon)}</div>
-          <div class="coinname">
-            <strong>${escapeHTML(coin.name)}</strong>
-            <span>${escapeHTML(coin.symbol)}</span>
-          </div>
-        </div>
-      </td>
-      <td>${money(coin.price)}</td>
-      <td class="${changeClass}">
-        ${changeSign}${numberFormat(coin.change, 2)}%
-      </td>
-      <td>${numberFormat(coin.holding)} ${escapeHTML(symbol)}</td>
-      ${includeAction ? `
-        <td>
-          <button class="btn secondary"
-            data-buy="${escapeHTML(symbol)}">Buy</button>
-        </td>
-      ` : ""}
-    </tr>
-  `;
-}
-
-function renderDashboardAssets() {
-  byId("dashboardAssets").innerHTML =
-    Object.keys(coins).map(symbol => `
-      <tr>
-        <td>
-          <div class="coin">
-            <div class="coinicon">${escapeHTML(coins[symbol].icon)}</div>
-            <div class="coinname">
-              <strong>${escapeHTML(coins[symbol].name)}</strong>
-              <span>${escapeHTML(symbol)}</span>
-            </div>
-          </div>
-        </td>
-        <td>${money(coins[symbol].price)}</td>
-        <td class="${coins[symbol].change >= 0 ? "positive" : "negative"}">
-          ${coins[symbol].change > 0 ? "+" : ""}
-          ${numberFormat(coins[symbol].change, 2)}%
-        </td>
-        <td>${money(assetValue(symbol))}</td>
-      </tr>
-    `).join("");
-}
-
-function renderAllAssets() {
-  byId("allAssets").innerHTML =
-    Object.keys(coins).map(symbol => `
-      <tr>
-        <td>
-          <div class="coin">
-            <div class="coinicon">${escapeHTML(coins[symbol].icon)}</div>
-            <div class="coinname">
-              <strong>${escapeHTML(coins[symbol].name)}</strong>
-              <span>${escapeHTML(symbol)}</span>
-            </div>
-          </div>
-        </td>
-        <td>${money(coins[symbol].price)}</td>
-        <td>${numberFormat(coins[symbol].holding)} ${symbol}</td>
-        <td>${money(assetValue(symbol))}</td>
-        <td>
-          <button class="btn secondary"
-            data-sell="${symbol}">Sell</button>
-        </td>
-      </tr>
-    `).join("");
-}
-
-function renderMarkets() {
-  const query = byId("marketSearch").value.trim().toLowerCase();
-
-  byId("marketRows").innerHTML = Object.keys(coins)
-    .filter(symbol =>
-      coins[symbol].name.toLowerCase().includes(query) ||
-      symbol.toLowerCase().includes(query)
-    )
-    .map(symbol => `
-      <tr>
-        <td>
-          <div class="coin">
-            <div class="coinicon">${escapeHTML(coins[symbol].icon)}</div>
-            <div class="coinname">
-              <strong>${escapeHTML(coins[symbol].name)}</strong>
-              <span>${escapeHTML(symbol)}</span>
-            </div>
-          </div>
-        </td>
-        <td>${money(coins[symbol].price)}</td>
-        <td class="${coins[symbol].change >= 0 ? "positive" : "negative"}">
-          ${coins[symbol].change > 0 ? "+" : ""}
-          ${numberFormat(coins[symbol].change, 2)}%
-        </td>
-        <td>
-          <button class="btn secondary"
-            data-buy="${escapeHTML(symbol)}">Buy</button>
-        </td>
-      </tr>
-    `).join("") || `
-      <tr><td colspan="4" class="empty">No matching assets found.</td></tr>
-    `;
-}
-
-/* =========================================
-   DASHBOARD BALANCE UPDATES
-   ========================================= */
-
-function renderBalances() {
-  const total = money(portfolioValue());
-  const cashText = money(cash);
-  const count = holdingCount();
-
-  byId("totalBalance").textContent = total;
-  byId("cashBalance").textContent = cashText;
-  byId("assetCount").textContent = count;
-
-  byId("assetsTotal").textContent = total;
-  byId("assetsCash").textContent = cashText;
-  byId("assetsCount").textContent = count;
-}
-
-/* =========================================
-   ACTIVITY DISPLAY
-   ========================================= */
-
-function activityHTML(item) {
-  const sign = item.amount >= 0 ? "+" : "";
-
-  return `
-    <div class="activity">
-      <div>
-        <strong>${escapeHTML(item.type)}</strong>
-        <div class="small">${escapeHTML(item.details)}</div>
-        <div class="small">${escapeHTML(item.date)}</div>
-      </div>
-      <strong>${sign}${money(item.amount)}</strong>
-    </div>
-  `;
-}
-
-function renderActivity() {
-  const html = activities.map(activityHTML).join("");
-
-  byId("recentActivity").innerHTML =
-    html || '<div class="empty">No activity yet.</div>';
-
-  byId("activityList").innerHTML =
-    html || '<div class="empty">No activity recorded yet.</div>';
-}
-
-/* =========================================
-   PAGE NAVIGATION
-   ========================================= */
-
-function navigate(pageName) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.toggle("active", page.id === pageName);
-  });
-
-  document.querySelectorAll(".nav[data-page]").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.page === pageName
-    );
-  });
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-document.querySelectorAll(".nav[data-page]").forEach(button => {
-  button.addEventListener("click", () => {
-    navigate(button.dataset.page);
-  });
+document.querySelectorAll('[data-view]').forEach(button => {
+  button.addEventListener('click', () => showView(button.dataset.view));
 });
 
-document.querySelectorAll("[data-goto]").forEach(button => {
-  button.addEventListener("click", () => {
-    navigate(button.dataset.goto);
-  });
+document.querySelectorAll('[data-go]').forEach(button => {
+  button.addEventListener('click', () => showView(button.dataset.go));
 });
 
-/* =========================================
-   BUY AND SELL ESTIMATE
-   ========================================= */
+document.querySelectorAll('form[data-type]').forEach(form => {
+  form.addEventListener('submit', event => {
+    event.preventDefault();
 
-function updateTradeEstimate() {
-  const symbol = byId("tradeCoin").value;
-  const amount = Number(byId("tradeAmount").value);
-  const type = byId("tradeType").value;
-  const coin = coins[symbol];
+    if (!form.reportValidity()) return;
 
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage(
-      "tradeEstimate",
-      "Enter a positive USD amount to see your estimate."
-    );
-    return;
-  }
+    const type = form.dataset.type;
+    const data = new FormData(form);
+    const fields = [...form.querySelectorAll('input, select')];
+    const values = fields.map(field => field.value.trim());
 
-  const quantity = amount / coin.price;
+    if (values.some(value => !value)) return;
 
-  showMessage(
-    "tradeEstimate",
-    `${type === "buy" ? "Estimated purchase" : "Estimated sale"}: ` +
-    `${numberFormat(quantity)} ${symbol} for ${money(amount)}. ` +
-    `Sample price: ${money(coin.price)} per ${symbol}.`
-  );
-}
-
-byId("tradeType").addEventListener("change", updateTradeEstimate);
-byId("tradeCoin").addEventListener("change", updateTradeEstimate);
-byId("tradeAmount").addEventListener("input", updateTradeEstimate);
-
-byId("clearTrade").addEventListener("click", () => {
-  byId("tradeAmount").value = "";
-  showMessage("tradeMessage", "Trade form cleared.");
-  updateTradeEstimate();
-});
-
-byId("executeTrade").addEventListener("click", () => {
-  const type = byId("tradeType").value;
-  const symbol = byId("tradeCoin").value;
-  const amount = Number(byId("tradeAmount").value);
-  const coin = coins[symbol];
-
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage("tradeMessage", "Enter a valid positive amount.");
-    return;
-  }
-
-  if (type === "buy") {
-    if (amount > cash) {
-      showMessage("tradeMessage", "content mr Elon.");
+    if (type === 'Swap' && values[0] === values[1]) {
+      alert('Please select two different assets.');
       return;
     }
 
-    cash -= amount;
-    coin.holding += amount / coin.price;
+    const reference = 'TLN-' +
+      Date.now().toString().slice(-8);
 
-    recordActivity(
-      "Simulated Buy",
-      `Bought ${symbol} using sample USD balance`,
-      -amount
-    );
-  } else {
-    const quantity = amount / coin.price;
+    document.getElementById('confirmationTitle').textContent =
+      type + ' Request Received';
 
-    if (quantity > coin.holding) {
-      showMessage("tradeMessage", "content mr Elon.");
-      return;
-    }
+    document.getElementById('confirmationText').textContent =
+      'Your ' + type.toLowerCase() +
+      ' request has been submitted on this page. Reference: ' +
+      reference + '. Please contact our support team for further assistance.';
 
-    coin.holding -= quantity;
-    cash += amount;
+    const row = document.createElement('div');
+    row.className = 'transaction';
 
-    recordActivity(
-      "Simulated Sell",
-      `Sold ${symbol} into sample USD balance`,
-      amount
-    );
-  }
+    const details = document.createElement('div');
+    details.textContent = type + ' request';
+    const small = document.createElement('small');
+    small.textContent = reference + ' · ' + new Date().toLocaleString();
+    details.appendChild(small);
 
-  renderAll();
-  byId("tradeAmount").value = "";
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = 'Submitted';
 
-  showMessage(
-    "tradeMessage",
-    
-  );
+    row.append(details, badge);
+    activity.prepend(row);
 
-  updateTradeEstimate();
-});
-  /* =========================================
-   ACTIVITY PAGE
-   ========================================= */
-
-const activityPage = document.createElement("section");
-activityPage.className = "page";
-activityPage.id = "activity";
-
-activityPage.innerHTML = `
-  <h1>Transaction Activity</h1>
-  <p class="sub">
-    
-  </p>
-  <div class="card">
-    <h2>Activity History</h2>
-    <div id="activityList">
-      <div class="empty">No activity recorded yet.</div>
-    </div>
-  </div>
-`;
-
-const settingsPage = byId("settings");
-settingsPage.parentNode.insertBefore(activityPage, settingsPage);
-
-/* =========================================
-   SWAP ESTIMATE
-   ========================================= */
-
-function updateSwapEstimate() {
-  const from = byId("swapFrom").value;
-  const to = byId("swapTo").value;
-  const amount = Number(byId("swapAmount").value);
-
-  if (from === to) {
-    showMessage(
-      "swapEstimate",
-      "Choose two different assets."
-    );
-    return;
-  }
-
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage(
-      "swapEstimate",
-      "Enter a positive USD amount to estimate your swap."
-    );
-    return;
-  }
-
-  const quantity = amount / coins[to].price;
-
-  showMessage(
-    "swapEstimate",
-    `${money(amount)} of ${from} is approximately ` +
-    `${numberFormat(quantity)} ${to}, using sample prices.`
-  );
-}
-
-byId("swapFrom").addEventListener("change", updateSwapEstimate);
-byId("swapTo").addEventListener("change", updateSwapEstimate);
-byId("swapAmount").addEventListener("input", updateSwapEstimate);
-
-byId("executeSwap").addEventListener("click", () => {
-  const from = byId("swapFrom").value;
-  const to = byId("swapTo").value;
-  const amount = Number(byId("swapAmount").value);
-
-  if (from === to) {
-    showMessage("swapMessage", "Choose two different assets.");
-    return;
-  }
-
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage("swapMessage", "Enter a valid positive amount.");
-    return;
-  }
-
-  const quantityFrom = amount / coins[from].price;
-  const quantityTo = amount / coins[to].price;
-
-  if (quantityFrom > coins[from].holding) {
-    showMessage(
-      "swapMessage",
-      ' ${from} holdings.`
-    );
-    return;
-  }
-
-  coins[from].holding -= quantityFrom;
-  coins[to].holding += quantityTo;
-
-  recordActivity(
-    "Simulated Swap",
-    `Exchanged ${numberFormat(quantityFrom)} ${from} for ` +
-    `${numberFormat(quantityTo)} ${to}`,
-    0
-  );
-
-  renderAll();
-
-  byId("swapAmount").value = "";
-
-  showMessage(
-    "swapMessage",
-    "."
-  );
-
-  updateSwapEstimate();
+    form.reset();
+    showView('confirmation');
+  });
 });
 
-/* =========================================
-   WITHDRAWAL PREVIEW
-   ========================================= */
-
-byId("previewWithdrawal").addEventListener("click", () => {
-  const symbol = byId("withdrawAsset").value;
-  const amount = Number(byId("withdrawAmount").value);
-  const method = byId("withdrawMethod").value;
-  const destination = byId("withdrawDestination").value.trim();
-
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage(
-      "withdrawMessage",
-      "Enter a valid positive withdrawal amount."
-    );
-    return;
-  }
-
-  if (!destination) {
-    showMessage(
-      "withdrawMessage",
-      
-    );
-    return;
-  }
-
-  let available;
-
-  if (symbol === "USD") {
-    available = cash;
-  } else {
-    available = assetValue(symbol);
-  }
-
-  if (amount > available) {
-    showMessage(
-      "withdrawMessage",
-      `contact mr Elon for verification  ${symbol} balance.`
-    );
-    return;
-  }
-
-  const submission = {
-    type: "Withdrawal ",
-    asset: symbol,
-    amount: amount,
-    method: method,
-    destination: destination,
-    created: new Date().toLocaleString()
-  };
-
-  showMessage(
-    "withdrawMessage",
-    `withdrawal —  submitted\n` +
-    `Asset: ${submission.asset}\n` +
-    `Amount: ${money(submission.amount)}\n` +
-    `Method: ${submission.method === "bank" ? "Bank transfer" : "External wallet"}\n` +
-    `Destination label: ${submission.destination}\n` +
-    `Created: ${submission.created}\n\n` +
-    
-  );
-
-  recordActivity(
-    "Withdrawal submission ",
-    `${symbol} withdrawal submission created;  submitted`,
-    0
-  );
+document.getElementById('logout').addEventListener('click', () => {
+  showView('dashboard');
+  alert('To enable secure sign-out, connect this page to your authentication service.');
 });
 
-byId("clearWithdrawal").addEventListener("click", () => {
-  byId("withdrawAmount").value = "";
-  byId("withdrawDestination").value = "";
-
-  showMessage(
-    "withdrawMessage",
-    "Withdrawal preview form cleared."
-  );
-});
-
-/* =========================================
-   SETTINGS
-   ========================================= */
-
-byId("saveSettings").addEventListener("click", () => {
-  const name = byId("displayName").value.trim();
-
-  if (name.length > 40) {
-    showMessage(
-      "settingsMessage",
-      "The display name must be 40 characters or fewer."
-    );
-    return;
-  }
-
-  displayName = name || "Thomas Graizini";
-
-  showMessage(
-    "settingsMessage",
-    `Settings updated for ${displayName}.`
-  );
-});
-
-function updateProgress() {
-  const progress = 50;
-
-  byId("progressBar").style.width = `${progress}%`;
-  byId("progressText").textContent =
-    `Sample progress: ${progress}%`;
-}
-
-/* =========================================
-   TABLE ACTION BUTTONS
-   ========================================= */
-
-document.addEventListener("click", event => {
-  const buyButton = event.target.closest("[data-buy]");
-  const sellButton = event.target.closest("[data-sell]");
-
-  if (buyButton) {
-    const symbol = buyButton.dataset.buy;
-
-    byId("tradeType").value = "buy";
-    byId("tradeCoin").value = symbol;
-
-    navigate("trade");
-    updateTradeEstimate();
-  }
-
-  if (sellButton) {
-    const symbol = sellButton.dataset.sell;
-
-    byId("tradeType").value = "sell";
-    byId("tradeCoin").value = symbol;
-
-    navigate("trade");
-    updateTradeEstimate();
-  }
-});
-
-/* =========================================
-   MARKET SEARCH
-   ========================================= */
-
-byId("marketSearch").addEventListener("input", renderMarkets);
-
-/* =========================================
-   RESET SIMULATED PORTFOLIO
-   ========================================= */
-
-byId("resetWallet").addEventListener("click", () => {
-  const confirmed = window.confirm(
-    "Reset the wallet, cash balance, and activity history?"
-  );
-
-  if (!confirmed) return;
-
-  cash = initialCash;
-  coins = JSON.parse(JSON.stringify(initialCoins));
-  activities = [];
-
-  byId("tradeAmount").value = "";
-  byId("swapAmount").value = "";
-  byId("withdrawAmount").value = "";
-  byId("withdrawDestination").value = "";
-
-  renderAll();
-
-  showMessage(
-    "settingsMessage",
-    " wallet has been reset."
-  );
-
-  showMessage(
-    "tradeMessage",
-    "Portfolio reset. contact mr elon for confirmation."
-  );
-
-  showMessage(
-    "swapMessage",
-    "Portfolio reset. content mr Elon for confirmation."
-  );
-
-  showMessage(
-    "withdrawMessage",
-    "Portfolio reset. contact Mr Elon for confirmation."
-  );
-
-  updateTradeEstimate();
-  updateSwapEstimate();
-});
-
-/* =========================================
-   RENDER ALL INTERFACE COMPONENTS
-   ========================================= */
-
-function renderAll() {
-  renderBalances();
-  renderDashboardAssets();
-  renderAllAssets();
-  renderMarkets();
-  renderActivity();
-}
-
-/* =========================================
-   INITIALIZE WEBSITE
-   ========================================= */
-
-renderAll();
-updateTradeEstimate();
-updateSwapEstimate();
-updateProgress();
-
+document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
-</html>
+  </html>
