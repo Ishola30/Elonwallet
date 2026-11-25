@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090a0c">
+<title>Elon Wallet | Dashboard</title>
+<style>
+:root{
+  --bg:#090a0c;--panel:#151619;--border:#26272c;--gold:#e8b548;
+  --gold-soft:#f4cc70;--text:#f7f7f8;--muted:#9b9ba4;--green:#36d6a0;
+  --red:#ff7272;--radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);
+  background-image:radial-gradient(800px 500px at 15% -10%,rgba(232,181,72,.10),transparent 60%);
+  background-repeat:no-repeat;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  min-height:100vh; -webkit-font-smoothing:antialiased;
+}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{max-width:1200px;margin:0 auto;padding:20px 18px 40px}
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:800;font-size:18px}
+.brand span{font-size:26px}
+.user{display:flex;align-items:center;gap:12px;min-width:0}
+.avatar{
+  width:46px;height:46px;flex-shrink:0;display:grid;place-items:center;
+  border-radius:50%;background:rgba(232,181,72,.10);border:1px solid rgba(232,181,72,.45);
+  color:var(--gold);font-weight:800;font-size:14px;
+}
+.user h1{font-size:18px;font-weight:700;overflow-wrap:anywhere}
+.subtitle{color:var(--muted);font-size:12px;margin-top:2px}
+.status{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
+  color:#8fe6bb;background:rgba(54,214,160,.08);border:1px solid rgba(54,214,160,.30);
+  border-radius:999px;padding:7px 12px;white-space:nowrap;
+}
+/* CARDS */
+.card{
+  background:linear-gradient(150deg,#17181c,#101114);
+  border:1px solid var(--border);border-radius:var(--radius);padding:20px;
+}
+.balance-card{
+  position:relative;overflow:hidden;padding:24px;border-color:#3d3323;
+  background:radial-gradient(120% 150% at 0% 0%,rgba(232,181,72,.16),transparent 55%),
+    linear-gradient(150deg,#1b1c20,#101114);
+  margin-bottom:18px;
+}
+.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.balance-label{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.pill{
+  display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;
+  padding:5px 10px;border-radius:999px;color:#8fe6bb;
+  background:rgba(54,214,160,.08);border:1px solid rgba(54,214,160,.32);white-space:nowrap;
+}
+.balance{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.05;color:var(--gold);margin:12px 0 6px;overflow-wrap:anywhere}
+.balance-note{color:var(--muted);font-size:12px}
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:11px 16px;border-radius:9px;font-size:13.5px;font-weight:700;
+  text-decoration:none;border:1px solid transparent;transition:.18s;
+}
+.btn.primary{background:var(--gold);color:#17130b}
+.btn.primary:hover{background:var(--gold-soft)}
+.btn.ghost{background:rgba(255,255,255,.03);border-color:var(--border);color:var(--text)}
+.btn.ghost:hover{border-color:rgba(232,181,72,.6);color:var(--gold)}
+.btn.full{width:100%;margin-top:4px}
+/* FORMS GRID */
+.forms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+.form-card h2{display:flex;align-items:center;gap:8px;font-size:16px;margin-bottom:6px}
+.h-ico{color:var(--gold);font-size:14px}
+.description{color:var(--muted);font-size:12.5px;line-height:1.6;margin-bottom:16px}
+.field{margin-bottom:14px}
+label{display:block;margin-bottom:6px;font-size:12px;font-weight:600;color:#dedee2}
+input,select{
+  width:100%;padding:12px 13px;background:#0c0d0f;color:var(--text);
+  border:1px solid #35363c;border-radius:8px;outline:none;transition:.18s;
+}
+input::placeholder{color:#63646c}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,181,72,.13)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
+  outline:2px solid var(--gold);outline-offset:2px;
+}
+.form-message{font-size:12px;line-height:1.5;margin-top:10px;min-height:18px}
+.form-message.ok{color:var(--green)}
+.form-message.error{color:var(--red)}
+/* LISTS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.section-title{font-size:15px;font-weight:700}
+.muted-note{color:var(--muted);font-size:11.5px}
+.tx-list{display:flex;flex-direction:column}
+.tx{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #222327}
+.tx:last-child{border-bottom:0}
+.tx-icon{
+  width:34px;height:34px;flex-shrink:0;display:grid;place-items:center;
+  border-radius:50%;background:rgba(232,181,72,.12);color:var(--gold);font-size:13px;
+}
+.tx-info{flex:1;min-width:0}
+.tx-info strong{display:block;font-size:13.5px;font-weight:600}
+.tx-info small{display:block;margin-top:2px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+.tx-amount{font-size:13.5px;font-weight:700;color:var(--green);white-space:nowrap}
+.badge{
+  font-size:10px;font-weight:700;color:var(--gold);
+  background:rgba(232,181,72,.10);border:1px solid rgba(232,181,72,.32);
+  border-radius:999px;padding:4px 9px;white-space:nowrap;
+}
+.status-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:8px;padding-top:14px;border-top:1px solid #222327;
+  font-size:12.5px;color:var(--muted);
+}
+.empty{color:var(--muted);font-size:12.5px;line-height:1.6;padding:14px 0}
+footer{color:#6f7078;text-align:center;font-size:11px;line-height:1.7;margin:32px 0 4px}
+/* RESPONSIVE */
+@media(max-width:860px){.grid-2{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .app{padding:16px 12px 30px}
+  header{margin-bottom:18px}
+  .user h1{font-size:16px}
+  .avatar{width:42px;height:42px;font-size:13px}
+  .status{font-size:10px;padding:6px 9px}
+  .balance-card{padding:18px}
+  .forms-grid{grid-template-columns:1fr}
+  .card{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand"><span>◈</span>Elon Wallet</div>
+    <div class="user">
+      <div class="avatar" id="avatar">TG</div>
+      <div>
+        <h1 id="displayName">Thomas Graizini</h1>
+        <div class="subtitle">USD Account · Dashboard</div>
+      </div>
+    </div>
+    <div class="status">● Account Active</div>
+  </header>
+
+  <main>
+    <!-- BALANCE -->
+    <section class="card balance-card">
+      <div class="balance-top">
+        <span class="balance-label">Available Balance</span>
+        <span class="pill">● Activated</span>
+      </div>
+      <div class="balance" id="balance">$580,799.00</div>
+      <div class="balance-note">Wallet balance display · USD</div>
+    </section>
+
+    <!-- FORMS -->
+    <div class="forms-grid">
+
+      <!-- WITHDRAWAL -->
+      <section class="card form-card" id="withdrawal">
+        <h2><span class="h-ico">↗</span> Withdrawal</h2>
+        <p class="description">Enter the amount and destination for your withdrawal request.</p>
+        <form data-type="Withdrawal">
+          <div class="field">
+            <label for="withdrawAmount">Amount (USD)</label>
+            <input id="withdrawAmount" name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required>
+          </div>
+          <div class="field">
+            <label for="withdrawMethod">Withdrawal method</label>
+            <select id="withdrawMethod" name="method" required>
+              <option value="">Select method</option>
+              <option>Bank Transfer</option>
+              <option>Cryptocurrency Wallet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="withdrawDestination">Destination details</label>
+            <input id="withdrawDestination" name="destination" maxlength="200" placeholder="Account number or wallet address" required>
+          </div>
+          <button class="btn primary full" type="submit">Submit Withdrawal Request</button>
+          <p class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- SWAP -->
+      <section class="card form-card" id="swap">
+        <h2><span class="h-ico">⇄</span> Swap Assets</h2>
+        <p class="description">Select the assets and amount for your exchange request.</p>
+        <form data-type="Swap">
+          <div class="field">
+            <label for="swapFrom">From</label>
+            <select id="swapFrom" name="from" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option><option>USDT</option><option>USDC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="swapTo">To</label>
+            <select id="swapTo" name="to" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option><option>USDT</option><option>USDC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="swapAmount">Amount</label>
+            <input id="swapAmount" name="amount" type="number" min="0.00000001" step="any" placeholder="0.00" required>
+          </div>
+          <button class="btn primary full" type="submit">Submit Swap Request</button>
+          <p class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- SELL -->
+      <section class="card form-card" id="sell">
+        <h2><span class="h-ico">＄</span> Sell Assets</h2>
+        <p class="description">Enter the asset, amount, and preferred payment method.</p>
+        <form data-type="Sell">
+          <div class="field">
+            <label for="sellAsset">Asset</label>
+            <select id="sellAsset" name="asset" required>
+              <option value="">Select asset</option>
+              <option>BTC</option><option>ETH</option><option>USDT</option><option>USDC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sellAmount">Amount</label>
+            <input id="sellAmount" name="amount" type="number" min="0.00000001" step="any" placeholder="0.00" required>
+          </div>
+          <div class="field">
+            <label for="sellPayment">Payment method</label>
+            <select id="sellPayment" name="payment" required>
+              <option value="">Select method</option>
+              <option>Bank Transfer</option>
+              <option>Cryptocurrency</option>
+            </select>
+          </div>
+          <button class="btn primary full" type="submit">Submit Sell Request</button>
+          <p class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+    </div>
+
+    <!-- HISTORY & ACTIVITY -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <h2 class="section-title">Payment History</h2>
+          <span class="muted-note">3 payments</span>
+        </div>
+        <div class="tx-list">
+          <div class="tx">
+            <div class="tx-icon">↓</div>
+            <div class="tx-info">
+              <strong>Amount paid</strong>
+              <small>25 Nov 2026</small>
+            </div>
+            <div class="tx-amount">+$150.00</div>
+          </div>
+          <div class="tx">
+            <div class="tx-icon">↓</div>
+            <div class="tx-info">
+              <strong>Amount paid</strong>
+              <small>26 Oct 2026</small>
+            </div>
+            <div class="tx-amount">+$150.00</div>
+          </div>
+          <div class="tx">
+            <div class="tx-icon">↓</div>
+            <div class="tx-info">
+              <strong>Amount paid</strong>
+              <small>10 Nov 2026</small>
+            </div>
+            <div class="tx-amount">+$300.00</div>
+          </div>
+        </div>
+        <div class="status-row">
+          <span>Account status</span>
+          <span class="pill">● Activated 🟢</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2 class="section-title">Recent Activity</h2>
+          <span class="muted-note">This browser</span>
+        </div>
+        <div id="activity" class="tx-list"></div>
+      </div>
+    </div>
+
+    <footer>© <span id="year"></span> Elon Wallet. All rights reserved.</footer>
+  </main>
+</div>
+
+<script>
+/* ACCOUNT CONFIGURATION */
+const WALLET_FULL_NAME = "Thomas Graizini";
+const nameParts = WALLET_FULL_NAME.trim().split(/\s+/);
+document.getElementById("displayName").textContent = WALLET_FULL_NAME;
+document.getElementById("avatar").textContent =
+  nameParts.map(p => p.charAt(0)).join("").slice(0,2).toUpperCase();
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* REQUEST STORAGE */
+const STORAGE_KEY = "elonWalletRequests";
+function readRequests(){
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(data) ? data : [];
+  } catch { return []; }
+}
+function saveRequests(list){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    return true;
+  } catch { return false; }
+}
+
+/* ACTIVITY RENDER */
+const TYPE_ICON = { Withdrawal:"↗", Swap:"⇄", Sell:"＄" };
+function renderActivity(){
+  const box = document.getElementById("activity");
+  const requests = readRequests();
+  box.replaceChildren();
+  if (!requests.length){
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "No recent activity yet. Submitted requests will appear here.";
+    box.appendChild(empty);
+    return;
+  }
+  requests.slice(0,20).forEach(req => {
+    const row = document.createElement("div");
+    row.className = "tx";
+    const icon = document.createElement("div");
+    icon.className = "tx-icon";
+    icon.textContent = TYPE_ICON[req.type] || "•";
+    const info = document.createElement("div");
+    info.className = "tx-info";
+    const title = document.createElement("strong");
+    title.textContent = req.type + " Request";
+    const meta = document.createElement("small");
+    meta.textContent = req.reference + " · " + req.date;
+    info.append(title, meta);
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = "Submitted";
+    row.append(icon, info, badge);
+    box.appendChild(row);
+  });
+}
+
+/* FORM SUBMISSIONS */
+function setMessage(el, text, state){
+  el.textContent = text;
+  el.className = "form-message" + (state ? " " + state : "");
+}
+
+document.querySelectorAll("form[data-type]").forEach(form => {
+  const message = form.querySelector(".form-message");
+  form.addEventListener("input", () => {
+    if (message.textContent) setMessage(message, "", "");
+  });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const type = form.dataset.type;
+    const fields = [...form.querySelectorAll("input,select")];
+    const values = fields.map(f => f.value.trim());
+    if (values.some(v => !v)){
+      setMessage(message, "Please complete every field.", "error");
+      return;
+    }
+    if (type === "Swap" && values[0].toLowerCase() === values[1].toLowerCase()){
+      setMessage(message, "Please choose two different assets.", "error");
+      return;
+    }
+    const request = {
+      type: type,
+      reference: "REQ-" + Date.now().toString(36).toUpperCase(),
+      date: new Date().toLocaleString()
+    };
+    const requests = readRequests();
+    requests.unshift(request);
+    const saved = saveRequests(requests);
+    form.reset();
+    renderActivity();
+    setMessage(
+      message,
+      "✓ " + type + " request submitted. Reference: " + request.reference + "." +
+        (saved ? "" : " (Could not be saved in this browser.)"),
+      "ok"
+    );
+  });
+});
+
+/* INITIALIZE */
+renderActivity();
+</script>
+</body>
+</html>: 
